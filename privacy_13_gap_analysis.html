@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <title>שאלון Gap Analysis – חוק הגנת הפרטיות</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; direction: rtl; text-align: center; margin: 40px; }
+    h1, h2 { text-align: center; }
+    .section { display: inline-block; text-align: right; margin-bottom: 20px; width: 60%; }
+    label { font-weight: bold; display: block; margin-top: 20px; }
+    select { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
+    #result { margin-top: 30px; padding: 15px; border: 1px solid #ccc; display: none; background: #f0f0f0; }
+  </style>
+</head>
+<body>
+
+<h1>שאלון Gap Analysis מורחב</h1>
+<h2>חוק הגנת הפרטיות – תיקון 13</h2>
+
+<div id="form">
+  <div class="section">
+    <label for="q1">1. האם קיימים מאגרי מידע בארגון?</label>
+    <select id="q1">
+      <option value="כן, מעל 100,000 רשומות">כן, מעל 100,000 רשומות</option>
+      <option value="כן, פחות מ-100,000 רשומות">כן, פחות מ-100,000 רשומות</option>
+      <option value="לא קיימים מאגרים">לא קיימים מאגרים</option>
+    </select>
+  </div>
+  <div class="section">
+    <label for="q2">2. האם קיימת חובת רישום למאגרים אלו לפי החוק?</label>
+    <select id="q2">
+      <option value="כן, נרשמו">כן, נרשמו</option>
+      <option value="כן, לא נרשמו">כן, לא נרשמו</option>
+      <option value="לא חלה חובת רישום">לא חלה חובת רישום</option>
+    </select>
+  </div>
+  <div class="section">
+    <label for="q3">3. האם קיימת מדיניות פרטיות כתובה?</label>
+    <select id="q3">
+      <option value="כן, מפורסמת באתר ובאפליקציה">כן, מפורסמת באתר ובאפליקציה</option>
+      <option value="כן, אך אינה מפורסמת">כן, אך אינה מפורסמת</option>
+      <option value="לא קיימת מדיניות פרטיות">לא קיימת מדיניות פרטיות</option>
+    </select>
+  </div>
+  <div class="section">
+    <label for="q4">4. האם קיים ממונה על הגנת הפרטיות (DPO)?</label>
+    <select id="q4">
+      <option value="כן, מונה DPO לפי החוק">כן, מונה DPO לפי החוק</option>
+      <option value="לא מונה, אך נדרש למנות">לא מונה, אך נדרש למנות</option>
+      <option value="לא נדרש למנות לפי ניתוח החוק">לא נדרש למנות לפי ניתוח החוק</option>
+    </select>
+  </div>
+  <div class="section">
+    <label for="q5">5. האם קיים ממונה אבטחת מידע (CISO)?</label>
+    <select id="q5">
+      <option value="כן, מונה CISO">כן, מונה CISO</option>
+      <option value="לא מונה, אך נדרש למנות">לא מונה, אך נדרש למנות</option>
+      <option value="לא נדרש לפי רמת הסיכון">לא נדרש לפי רמת הסיכון</option>
+    </select>
+  </div>
+  <div class="section">
+    <label for="q6">6. האם בוצעה הערכת סיכוני פרטיות (PIA) בשנה האחרונה?</label>
+    <select id="q6">
+      <option value="כן, בשנה האחרונה">כן, בשנה האחרונה</option>
+      <option value="בוצעה לפני למעלה משנה">בוצעה לפני למעלה משנה</option>
+      <option value="לא בוצעה כלל">לא בוצעה כלל</option>
+    </select>
+  </div>
+  <div class="section">
+    <label for="q7">7. האם קיימים נהלים לזכויות נושאי מידע (עיון, תיקון, מחיקה)?</label>
+    <select id="q7">
+      <option value="כן, לכל הזכויות הנדרשות">כן, לכל הזכויות הנדרשות</option>
+      <option value="חלקיים בלבד">חלקיים בלבד</option>
+      <option value="לא קיימים כלל">לא קיימים כלל</option>
+    </select>
+  </div>
+  <div class="section">
+    <label for="q8">8. האם בוצעו מבדקי אבטחת מידע למערכות בשנה האחרונה?</label>
+    <select id="q8">
+      <option value="כן, בשנה האחרונה">כן, בשנה האחרונה</option>
+      <option value="בוצעו לפני למעלה משנה">בוצעו לפני למעלה משנה</option>
+      <option value="לא בוצעו כלל">לא בוצעו כלל</option>
+    </select>
+  </div>
+  <div class="section">
+    <label for="q9">9. האם קיימים הסכמי עיבוד מידע עם ספקים חיצוניים?</label>
+    <select id="q9">
+      <option value="כן, עם כל הספקים הרלוונטיים">כן, עם כל הספקים הרלוונטיים</option>
+      <option value="עם חלק מהספקים בלבד">עם חלק מהספקים בלבד</option>
+      <option value="לא קיימים כלל">לא קיימים כלל</option>
+    </select>
+  </div>
+  <div class="section">
+    <label for="q10">10. מסקנת ממלא השאלון: האם נדרש מינוי DPO / CISO?</label>
+    <select id="q10">
+      <option value="נדרש מינוי DPO בלבד">נדרש מינוי DPO בלבד</option>
+      <option value="נדרש מינוי CISO בלבד">נדרש מינוי CISO בלבד</option>
+      <option value="נדרשים שניהם">נדרשים שניהם</option>
+      <option value="אין צורך במינויים לפי החוק">אין צורך במינויים לפי החוק</option>
+    </select>
+  </div>
+</div>
+
+<button onclick="analyzeResults()">חשב התאמה לתיקון 13</button>
+<div id="result"></div>
+<button onclick="generatePDF()">ייצוא ל-PDF מעוצב</button>
+
+<script>
+function analyzeResults() {
+  let score = 0;
+  const total = 10;
+  const improvements = [];
+
+  for (let i = 1; i <= total; i++) {
+    const val = document.getElementById(`q${i}`).value;
+    if (val.includes('לא')) improvements.push(`שאלה ${i} דורשת טיפול: ${val}`);
+    else score++;
+  }
+
+  const percent = Math.round((score / total) * 100);
+
+  let message = `<h3>רמת התאמה לתיקון 13: ${percent}%</h3>`;
+  if (improvements.length > 0) {
+    message += "<b>צעדים נדרשים:</b><ul>";
+    improvements.forEach(item => message += `<li>${item}</li>`);
+    message += "</ul>";
+  } else {
+    message += "<p>כל הדרישות מולאו בהצלחה ✔️</p>";
+  }
+
+  document.getElementById('result').innerHTML = message;
+  document.getElementById('result').style.display = 'block';
+}
+
+function generatePDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFont('helvetica');
+  doc.setFontSize(18);
+  doc.text("שאלון Gap Analysis – חוק הגנת הפרטיות", 105, 20, null, null, 'center');
+  doc.setFontSize(12);
+
+  let y = 40;
+
+  for (let i = 1; i <= 10; i++) {
+    const q = document.querySelectorAll('label')[i-1].innerText;
+    const answer = document.getElementById(`q${i}`).value || "לא נמסרה תשובה";
+
+    doc.setFont(undefined, 'bold');
+    doc.text(`${i}. ${q}`, 20, y);
+    y += 7;
+
+    doc.setFont(undefined, 'normal');
+    const lines = doc.splitTextToSize(answer, 170);
+    doc.text(lines, 20, y);
+    y += lines.length * 7 + 5;
+
+    if (y > 270) { doc.addPage(); y = 20; }
+  }
+
+  doc.save('gap_analysis_privacy.pdf');
+}
+</script>
+
+</body>
+</html>
+
+<!-- ✅ כל השאלות שוחזרו והן חלק מחישוב כפתור הניתוח -->
